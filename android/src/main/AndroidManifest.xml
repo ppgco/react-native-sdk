@@ -1,2 +1,10 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android">
+  <application>
+    <provider
+      android:name="com.pushpushgo.reactnativesdk.PushPushGoContentProvider"
+      android:authorities="${applicationId}.PushPushGoContentProvider"
+      android:exported="false"
+      android:initOrder="100"
+      />
+  </application>
 </manifest>
