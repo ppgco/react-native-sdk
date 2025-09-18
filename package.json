@@ -149,9 +149,9 @@
     ]
   },
   "codegenConfig": {
-    "name": "ReactNativeSdkSpec",
+    "name": "PushPushGoSpec",
     "type": "modules",
-    "jsSrcsDir": "src",
+    "jsSrcsDir": "src/specs",
     "android": {
       "javaPackageName": "com.pushpushgo.reactnativesdk"
     }
