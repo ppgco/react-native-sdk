@@ -1,3 +1,4 @@
+import { PermissionsAndroid, Platform } from 'react-native';
 import type { Beacon } from './beacon/Beacon';
 import NativePushPushGo from './specs/NativePushPushGo';
 
@@ -8,6 +9,8 @@ export interface IPushPushGo {
   subscribeToNotifications: () => Promise<SubscriberId>;
   unsubscribeFromNotifications: () => Promise<void>;
   sendBeacon: (beacon: Beacon) => Promise<void>;
+  hasNotificationsPermission: () => Promise<boolean>;
+  requestNotificationsPermission: () => Promise<void>;
 }
 
 export const PushPushGo: IPushPushGo = {
@@ -31,6 +34,26 @@ export const PushPushGo: IPushPushGo = {
       customId: beacon.customId,
     });
   },
+
+  hasNotificationsPermission: async () => {
+    if (Platform.OS === 'android') {
+      if (Platform.Version >= 33) {
+        return await PermissionsAndroid.check(
+          PermissionsAndroid.PERMISSIONS.POST_NOTIFICATIONS
+        );
+      }
+    }
+
+    return true;
+  },
+
+  requestNotificationsPermission: async () => {
+    if (Platform.OS === 'android' && Platform.Version >= 33) {
+      await PermissionsAndroid.request(
+        PermissionsAndroid.PERMISSIONS.POST_NOTIFICATIONS
+      );
+    }
+  },
 };
 
 export {
@@ -38,4 +61,5 @@ export {
   type BeaconSelectorKey,
   type BeaconSelectorValue,
 } from './beacon/Beacon';
+
 export { BeaconTag, BeaconTagStrategy } from './beacon/BeaconTag';
