@@ -8,7 +8,7 @@ interface SpecBeacon {
   selectors: { [key: string]: string | number | boolean };
   tags: BeaconTag[];
   tagsToDelete: BeaconTag[];
-  customId: string;
+  customId: string | null;
 }
 
 export interface Spec extends TurboModule {

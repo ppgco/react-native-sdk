@@ -7,14 +7,14 @@ export interface IBeacon {
   selectors: Map<BeaconSelectorKey, BeaconSelectorValue>;
   tags: BeaconTag[];
   tagsToDelete: BeaconTag[];
-  customId: string;
+  customId: string | null;
 }
 
 class BeaconBuilder {
   private selectors = new Map<BeaconSelectorKey, BeaconSelectorValue>();
   private tags: BeaconTag[] = [];
   private tagsToDelete: BeaconTag[] = [];
-  private customId = '';
+  private customId: string | null = null;
 
   set(key: BeaconSelectorKey, value: BeaconSelectorValue): BeaconBuilder {
     this.selectors.set(key, value);
@@ -35,7 +35,7 @@ class BeaconBuilder {
   }
 
   setCustomId(id: string | null): BeaconBuilder {
-    this.customId = id ?? '';
+    this.customId = id;
 
     return this;
   }
@@ -55,7 +55,7 @@ export class Beacon implements IBeacon {
     readonly selectors: Map<BeaconSelectorKey, BeaconSelectorValue>,
     readonly tags: BeaconTag[],
     readonly tagsToDelete: BeaconTag[],
-    readonly customId: string
+    readonly customId: string | null
   ) {}
 
   static builder(): BeaconBuilder {

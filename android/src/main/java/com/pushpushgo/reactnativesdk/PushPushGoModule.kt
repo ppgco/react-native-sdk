@@ -6,29 +6,23 @@ import com.facebook.react.bridge.ReactApplicationContext
 import com.facebook.react.bridge.ReadableMap
 import com.google.common.util.concurrent.FutureCallback
 import com.google.common.util.concurrent.Futures
+import com.pushpushgo.reactnativesdk.bridge.PushPushGoBeaconTranslator
 import com.pushpushgo.reactnativesdk.bridge.PushPushGoError
-import com.pushpushgo.reactnativesdk.bridge.PushPushGoNotInitializedError
 import com.pushpushgo.sdk.PushPushGo
 
 class PushPushGoModule(reactContext: ReactApplicationContext): NativePushPushGoSpec(reactContext) {
+  private val ppg by lazy { PushPushGo.getInstance() }
+
   companion object {
     const val NAME: String = "PushPushGo"
   }
 
   override fun getSubscriberId(promise: Promise) {
-    if (!PushPushGo.isInitialized()) {
-      return promise.reject(PushPushGoNotInitializedError())
-    }
-
-    promise.resolve(PushPushGo.getInstance().getSubscriberId().ifEmpty { null })
+    promise.resolve(ppg.getSubscriberId().ifEmpty { null })
   }
 
   override fun subscribeToNotifications(promise: Promise) {
-    if (!PushPushGo.isInitialized()) {
-      return promise.reject(PushPushGoNotInitializedError())
-    }
-
-    Futures.addCallback(PushPushGo.getInstance().createSubscriber(), object: FutureCallback<String> {
+    Futures.addCallback(ppg.createSubscriber(), object: FutureCallback<String> {
       override fun onSuccess(result: String) {
         promise.resolve(result.ifEmpty { null })
       }
@@ -40,16 +34,14 @@ class PushPushGoModule(reactContext: ReactApplicationContext): NativePushPushGoS
   }
 
   override fun unsubscribeFromNotifications(promise: Promise) {
-    if (!PushPushGo.isInitialized()) {
-      return promise.reject(PushPushGoNotInitializedError())
-    }
-
-    PushPushGo.getInstance().unregisterSubscriber()
+    ppg.unregisterSubscriber()
 
     promise.resolve(Unit)
   }
 
   override fun sendBeacon(beacon: ReadableMap, promise: Promise) {
+    PushPushGoBeaconTranslator.translate(beacon).send()
+
     promise.resolve(Unit)
   }
 }

@@ -1,6 +1,3 @@
 package com.pushpushgo.reactnativesdk.bridge
 
-open class PushPushGoError(message: String): Exception(message) {
-}
-
-class PushPushGoNotInitializedError: PushPushGoError("PushPushGo is not initialized") {}
+class PushPushGoError(message: String, cause: Throwable? = null): Exception(message, cause)

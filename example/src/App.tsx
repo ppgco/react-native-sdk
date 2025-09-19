@@ -1,4 +1,9 @@
-import { PushPushGo } from '@pushpushgo/react-native-sdk';
+import {
+  Beacon,
+  BeaconTag,
+  BeaconTagStrategy,
+  PushPushGo,
+} from '@pushpushgo/react-native-sdk';
 import { useCallback, useEffect, useState } from 'react';
 import { Text, View, StyleSheet, Button } from 'react-native';
 
@@ -27,6 +32,25 @@ export default function App() {
     PushPushGo.unsubscribeFromNotifications();
   }, []);
 
+  const onSendBeacon = useCallback(() => {
+    PushPushGo.sendBeacon(
+      Beacon.builder()
+        .set('hello', 'world')
+        .appendTag(BeaconTag.fromTag('my-tag-0'))
+        .appendTag(BeaconTag.fromTagAndLabel('my-tag-1', 'my-label'))
+        .appendTag(
+          new BeaconTag({
+            tag: 'my-tag-2',
+            label: 'my-label',
+            strategy: BeaconTagStrategy.REWRITE,
+            ttl: 1000,
+          })
+        )
+        .setCustomId('my-custom-id')
+        .build()
+    );
+  }, []);
+
   return (
     <View style={styles.container}>
       <View style={styles.textContainer}>
@@ -42,6 +66,7 @@ export default function App() {
           title="Unregister from Notification"
           onPress={onUnregisterFromNotifications}
         />
+        <Button title="Send Beacon" onPress={onSendBeacon} />
       </View>
     </View>
   );
