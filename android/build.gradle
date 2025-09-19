@@ -75,4 +75,5 @@ dependencies {
   implementation "com.facebook.react:react-android"
   implementation "org.jetbrains.kotlin:kotlin-stdlib:$kotlin_version"
   implementation "com.github.ppgco.android-sdk:sdk:3.0.0"
+  implementation 'com.google.guava:guava:33.4.8-android'
 }

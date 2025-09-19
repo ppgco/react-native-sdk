@@ -1,8 +1,14 @@
 package com.pushpushgo.reactnativesdk
 
+import androidx.core.content.ContextCompat
 import com.facebook.react.bridge.Promise
 import com.facebook.react.bridge.ReactApplicationContext
 import com.facebook.react.bridge.ReadableMap
+import com.google.common.util.concurrent.FutureCallback
+import com.google.common.util.concurrent.Futures
+import com.pushpushgo.reactnativesdk.bridge.PushPushGoError
+import com.pushpushgo.reactnativesdk.bridge.PushPushGoNotInitializedError
+import com.pushpushgo.sdk.PushPushGo
 
 class PushPushGoModule(reactContext: ReactApplicationContext): NativePushPushGoSpec(reactContext) {
   companion object {
@@ -10,14 +16,36 @@ class PushPushGoModule(reactContext: ReactApplicationContext): NativePushPushGoS
   }
 
   override fun getSubscriberId(promise: Promise) {
-    promise.resolve("Hello World")
+    if (!PushPushGo.isInitialized()) {
+      return promise.reject(PushPushGoNotInitializedError())
+    }
+
+    promise.resolve(PushPushGo.getInstance().getSubscriberId().ifEmpty { null })
   }
 
   override fun subscribeToNotifications(promise: Promise) {
-    promise.resolve(Unit)
+    if (!PushPushGo.isInitialized()) {
+      return promise.reject(PushPushGoNotInitializedError())
+    }
+
+    Futures.addCallback(PushPushGo.getInstance().createSubscriber(), object: FutureCallback<String> {
+      override fun onSuccess(result: String) {
+        promise.resolve(result.ifEmpty { null })
+      }
+
+      override fun onFailure(t: Throwable) {
+        promise.reject(PushPushGoError("Cannot subscribe to notifications"))
+      }
+    }, ContextCompat.getMainExecutor(reactApplicationContext))
   }
 
   override fun unsubscribeFromNotifications(promise: Promise) {
+    if (!PushPushGo.isInitialized()) {
+      return promise.reject(PushPushGoNotInitializedError())
+    }
+
+    PushPushGo.getInstance().unregisterSubscriber()
+
     promise.resolve(Unit)
   }
 
