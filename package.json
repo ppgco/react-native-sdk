@@ -154,6 +154,11 @@
     "jsSrcsDir": "src/specs",
     "android": {
       "javaPackageName": "com.pushpushgo.reactnativesdk"
+    },
+    "ios": {
+      "modulesProvider": {
+        "PushPushGo": "PushPushGoModule"
+      }
     }
   },
   "create-react-native-library": {

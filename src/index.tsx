@@ -44,7 +44,7 @@ export const PushPushGo: IPushPushGo = {
       }
     }
 
-    return true;
+    return false;
   },
 
   requestNotificationsPermission: async () => {
