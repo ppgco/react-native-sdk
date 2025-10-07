@@ -1,9 +1,22 @@
 #import "PushPushGoModule.h"
+#import "PushPushGoRN-Swift.h"
 
-@implementation PushPushGoModule
+static NSString* const MODULE_NAME = @"PushPushGo";
+
+@implementation PushPushGoModule {
+  PushPushGoModuleDelegate *delegate;
+}
+
+- (instancetype)init {
+  if (self = [super init]) {
+    delegate = [PushPushGoModuleDelegate new];
+  }
+  
+  return self;
+}
 
 + (NSString *)moduleName {
-  return @"PushPushGo";
+  return MODULE_NAME;
 }
 
 - (std::shared_ptr<facebook::react::TurboModule>)getTurboModule:(const facebook::react::ObjCTurboModule::InitParams &)params {
@@ -11,19 +24,22 @@
 }
 
 - (void)getSubscriberId:(nonnull RCTPromiseResolveBlock)resolve reject:(nonnull RCTPromiseRejectBlock)reject {
-  resolve(@"Hello world");
+  NSString* subscriberId = [delegate getSubscriberId];
+  
+  resolve(subscriberId);
 }
 
 - (void)sendBeacon:(JS::NativePushPushGo::SpecBeacon &)beacon resolve:(nonnull RCTPromiseResolveBlock)resolve reject:(nonnull RCTPromiseRejectBlock)reject {
-  resolve(nil);
 }
 
 - (void)subscribeToNotifications:(nonnull RCTPromiseResolveBlock)resolve reject:(nonnull RCTPromiseRejectBlock)reject {
-  resolve(nil);
+  UIApplication *application = [UIApplication sharedApplication];
+  
+  [delegate subscribeToNotificationsWithApplication:application resolve:resolve reject:reject];
 }
 
 - (void)unsubscribeFromNotifications:(nonnull RCTPromiseResolveBlock)resolve reject:(nonnull RCTPromiseRejectBlock)reject {
-  resolve(nil);
+  [delegate unsubscribeFromNotificationsWithResolve:resolve reject:reject];
 }
 
 @end
