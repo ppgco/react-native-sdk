@@ -16,7 +16,6 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]? = nil
   ) -> Bool {
     PushPushGoRN.initialize(
-      application: application,
       projectId: Bundle.main.infoDictionary?["PPG_PROJECT_ID"] as? String ?? "",
       apiKey: Bundle.main.infoDictionary?["PPG_API_KEY"] as? String ?? "",
       appGroupId: "group.ppg.reactnativesdkexample"

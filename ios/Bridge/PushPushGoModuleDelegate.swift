@@ -37,5 +37,28 @@ public class PushPushGoModuleDelegate: NSObject {
     }
   }
   
-  @objc public func sendBeacon() {}
+  @objc public func sendBeacon(
+    selectors: NSDictionary,
+    tags: NSArray,
+    tagsToDelete: NSArray,
+    customId: NSString?,
+    resolve: @escaping RCTPromiseResolveBlock,
+    reject: @escaping RCTPromiseRejectBlock
+  ) {
+    var beacon = PushPushGoBeaconTranslator.translate(
+      selectors: selectors,
+      tags: tags,
+      tagsToDelete: tagsToDelete,
+      customId: customId
+    )
+    
+    PPG.sendBeacon(beacon) { result in
+      switch(result) {
+      case .success:
+        resolve(nil)
+      case .error(let error):
+        reject(nil, "Cannot send beacon: " + error, nil)
+      }
+    }
+  }
 }

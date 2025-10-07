@@ -30,6 +30,12 @@ static NSString* const MODULE_NAME = @"PushPushGo";
 }
 
 - (void)sendBeacon:(JS::NativePushPushGo::SpecBeacon &)beacon resolve:(nonnull RCTPromiseResolveBlock)resolve reject:(nonnull RCTPromiseRejectBlock)reject {
+  NSDictionary *selectors = (NSDictionary*) beacon.selectors();
+  NSArray *tags = (NSArray*) beacon.tags();
+  NSArray *tagsToDelete = (NSArray*) beacon.tagsToDelete();
+  NSString *customId = (NSString*) beacon.customId();
+  
+  [delegate sendBeaconWithSelectors:selectors tags:tags tagsToDelete:tagsToDelete customId:customId resolve:resolve reject:reject];
 }
 
 - (void)subscribeToNotifications:(nonnull RCTPromiseResolveBlock)resolve reject:(nonnull RCTPromiseRejectBlock)reject {
