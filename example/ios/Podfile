@@ -36,5 +36,17 @@ target 'ReactNativeSdkExample' do
       :mac_catalyst_enabled => false,
       # :ccache_enabled => true
     )
+
+    installer.pods_project.targets.each do |target|
+     target.build_configurations.each do |config|
+       config.build_settings['APPLICATION_EXTENSION_API_ONLY'] = 'No'
+      end
+   end
   end
+end
+
+target 'PushPushGoRNNSE' do
+  use_modular_headers!
+  
+  pod 'PPG_framework', :git => 'https://github.com/ppgco/ios-sdk.git', :tag => '3.0.5'
 end

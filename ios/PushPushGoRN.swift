@@ -3,6 +3,7 @@ import PPG_framework
 
 public class PushPushGoRN {
   public static func initialize(
+    application: UIApplication,
     projectId: String,
     apiKey: String,
     appGroupId: String
@@ -14,6 +15,8 @@ public class PushPushGoRN {
     )
     
     UNUserNotificationCenter.current().delegate = PPG.shared
+    
+    PPG.registerForNotifications(application: application) { result in }
   }
   
   public static func applicationDidBecomeActive() {
