@@ -9,18 +9,12 @@ import { Text, View, StyleSheet, Button } from 'react-native';
 
 export default function App() {
   const [id, setId] = useState<string | null>(null);
-  const [notificationsPermission, setNotificationsPermission] =
-    useState<boolean>(false);
 
   useEffect(() => {
     const _watch = () => {
       PushPushGo.getSubscriberId()
         .then((_id) => setId(_id))
         .catch();
-
-      PushPushGo.hasNotificationsPermission().then((v) =>
-        setNotificationsPermission(v)
-      );
     };
 
     _watch();
@@ -31,7 +25,9 @@ export default function App() {
   }, []);
 
   const onRegisterToNotifications = useCallback(() => {
-    PushPushGo.subscribeToNotifications().then((_id) => setId(_id));
+    PushPushGo.subscribeToNotifications()
+      .then((_id) => setId(_id))
+      .catch((e) => console.error(e?.message));
   }, []);
 
   const onUnregisterFromNotifications = useCallback(() => {
@@ -62,9 +58,6 @@ export default function App() {
       <View style={styles.textContainer}>
         <Text style={styles.text}>PushPushGo SDK</Text>
         <Text style={styles.text}>Subscriber ID: {id ?? '?'}</Text>
-        <Text style={styles.text}>
-          Notifications allowed: {notificationsPermission ? 'Yes' : 'No'}
-        </Text>
       </View>
       <View style={styles.buttonsContainer}>
         <Button
@@ -76,10 +69,6 @@ export default function App() {
           onPress={onUnregisterFromNotifications}
         />
         <Button title="Send Beacon" onPress={onSendBeacon} />
-        <Button
-          title="Request Notifications Permission"
-          onPress={() => PushPushGo.requestNotificationsPermission()}
-        />
       </View>
     </View>
   );

@@ -9,8 +9,6 @@ export interface IPushPushGo {
   subscribeToNotifications: () => Promise<SubscriberId>;
   unsubscribeFromNotifications: () => Promise<void>;
   sendBeacon: (beacon: Beacon) => Promise<void>;
-  hasNotificationsPermission: () => Promise<boolean>;
-  requestNotificationsPermission: () => Promise<void>;
 }
 
 export const PushPushGo: IPushPushGo = {
@@ -19,6 +17,23 @@ export const PushPushGo: IPushPushGo = {
   },
 
   subscribeToNotifications: async () => {
+    if (Platform.OS === 'android' && Platform.Version >= 33) {
+      const hasNotificationsPermission = await PermissionsAndroid.check(
+        PermissionsAndroid.PERMISSIONS.POST_NOTIFICATIONS
+      );
+
+      if (!hasNotificationsPermission) {
+        const hasGrantedNotificationsPermission =
+          await PermissionsAndroid.request(
+            PermissionsAndroid.PERMISSIONS.POST_NOTIFICATIONS
+          );
+
+        if (!hasGrantedNotificationsPermission) {
+          throw new Error('Cannot subscribe to notifications: no permission');
+        }
+      }
+    }
+
     return await NativePushPushGo.subscribeToNotifications();
   },
 
@@ -33,26 +48,6 @@ export const PushPushGo: IPushPushGo = {
       tagsToDelete: beacon.tagsToDelete,
       customId: beacon.customId,
     });
-  },
-
-  hasNotificationsPermission: async () => {
-    if (Platform.OS === 'android') {
-      if (Platform.Version >= 33) {
-        return await PermissionsAndroid.check(
-          PermissionsAndroid.PERMISSIONS.POST_NOTIFICATIONS
-        );
-      }
-    }
-
-    return false;
-  },
-
-  requestNotificationsPermission: async () => {
-    if (Platform.OS === 'android' && Platform.Version >= 33) {
-      await PermissionsAndroid.request(
-        PermissionsAndroid.PERMISSIONS.POST_NOTIFICATIONS
-      );
-    }
   },
 };
 

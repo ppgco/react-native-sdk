@@ -28,7 +28,7 @@ class PushPushGoModule(reactContext: ReactApplicationContext): NativePushPushGoS
       }
 
       override fun onFailure(t: Throwable) {
-        promise.reject(PushPushGoError("Cannot subscribe to notifications"))
+        promise.reject(PushPushGoError("Cannot subscribe to notifications: " + t.message))
       }
     }, ContextCompat.getMainExecutor(reactApplicationContext))
   }
