@@ -45,7 +45,7 @@ public class PushPushGoModuleDelegate: NSObject {
     resolve: @escaping RCTPromiseResolveBlock,
     reject: @escaping RCTPromiseRejectBlock
   ) {
-    var beacon = PushPushGoBeaconTranslator.translate(
+    let beacon = PushPushGoBeaconTranslator.translate(
       selectors: selectors,
       tags: tags,
       tagsToDelete: tagsToDelete,
