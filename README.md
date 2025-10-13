@@ -202,7 +202,6 @@ android/app/src/main/AndroidManifest.xml
 
       # Replace PushPushGoRNNSE with the name of your NSE
       target 'PushPushGoRNNSE' do
-        use_frameworks!
         use_modular_headers!
 
         pod 'PPG_framework', :git => 'https://github.com/ppgco/ios-sdk.git', :tag => '3.0.6'
