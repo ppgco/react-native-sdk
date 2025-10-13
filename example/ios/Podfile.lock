@@ -8,7 +8,7 @@ PODS:
   - hermes-engine (0.81.1):
     - hermes-engine/Pre-built (= 0.81.1)
   - hermes-engine/Pre-built (0.81.1)
-  - PPG_framework (3.0.5)
+  - PPG_framework (3.0.6)
   - PushPushGoRN (0.1.0):
     - boost
     - DoubleConversion
@@ -2381,7 +2381,7 @@ DEPENDENCIES:
   - fmt (from `../node_modules/react-native/third-party-podspecs/fmt.podspec`)
   - glog (from `../node_modules/react-native/third-party-podspecs/glog.podspec`)
   - hermes-engine (from `../node_modules/react-native/sdks/hermes-engine/hermes-engine.podspec`)
-  - PPG_framework (from `https://github.com/ppgco/ios-sdk.git`, tag `3.0.5`)
+  - PPG_framework (from `https://github.com/ppgco/ios-sdk.git`, tag `3.0.6`)
   - PushPushGoRN (from `../..`)
   - RCT-Folly (from `../node_modules/react-native/third-party-podspecs/RCT-Folly.podspec`)
   - RCTDeprecation (from `../node_modules/react-native/ReactApple/Libraries/RCTFoundation/RCTDeprecation`)
@@ -2473,7 +2473,7 @@ EXTERNAL SOURCES:
     :tag: hermes-2025-07-07-RNv0.81.0-e0fc67142ec0763c6b6153ca2bf96df815539782
   PPG_framework:
     :git: https://github.com/ppgco/ios-sdk.git
-    :tag: 3.0.5
+    :tag: 3.0.6
   PushPushGoRN:
     :path: "../.."
   RCT-Folly:
@@ -2610,7 +2610,7 @@ EXTERNAL SOURCES:
 CHECKOUT OPTIONS:
   PPG_framework:
     :git: https://github.com/ppgco/ios-sdk.git
-    :tag: 3.0.5
+    :tag: 3.0.6
 
 SPEC CHECKSUMS:
   boost: 7e761d76ca2ce687f7cc98e698152abd03a18f90
@@ -2620,7 +2620,7 @@ SPEC CHECKSUMS:
   fmt: a40bb5bd0294ea969aaaba240a927bd33d878cdd
   glog: 5683914934d5b6e4240e497e0f4a3b42d1854183
   hermes-engine: 4f8246b1f6d79f625e0d99472d1f3a71da4d28ca
-  PPG_framework: 5e5ffa6125730f38649ad827e668073720099451
+  PPG_framework: 4be698f6964754838d309b00453d315831d634de
   PushPushGoRN: 9faef83b265b6dc6dde2635889e820ab3c97750f
   RCT-Folly: 846fda9475e61ec7bcbf8a3fe81edfcaeb090669
   RCTDeprecation: c4b9e2fd0ab200e3af72b013ed6113187c607077
@@ -2689,6 +2689,6 @@ SPEC CHECKSUMS:
   SocketRocket: d4aabe649be1e368d1318fdf28a022d714d65748
   Yoga: 11c9686a21e2cd82a094a723649d9f4507200fb0
 
-PODFILE CHECKSUM: 9fb333cb74012874320c7affd5e8042a4949757d
+PODFILE CHECKSUM: 7e993e8332e08aa1a55250530d253aa9f8916846
 
 COCOAPODS: 1.16.2

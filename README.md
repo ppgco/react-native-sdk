@@ -111,7 +111,7 @@ android/app/src/main/AndroidManifest.xml
     # Add PPG_framework pod to existing main application target
     target '<application_name>' do
 
-    pod 'PPG_framework', :git => 'https://github.com/ppgco/ios-sdk.git', :tag => '3.0.5'
+    pod 'PPG_framework', :git => 'https://github.com/ppgco/ios-sdk.git', :tag => '3.0.6'
 
     end
 
@@ -205,7 +205,7 @@ android/app/src/main/AndroidManifest.xml
         use_frameworks!
         use_modular_headers!
 
-        pod 'PPG_framework', :git => 'https://github.com/ppgco/ios-sdk.git', :tag => '3.0.5'
+        pod 'PPG_framework', :git => 'https://github.com/ppgco/ios-sdk.git', :tag => '3.0.6'
       end
       ```
 
