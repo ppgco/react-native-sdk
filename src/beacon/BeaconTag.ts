@@ -11,9 +11,16 @@ export interface IBeaconTag {
 }
 
 interface IBeaconTagProps {
+  /** Tag name */
   tag: string;
+
+  /** Optional tag label */
   label?: string;
+
+  /** Strategy dictating whether the tags assigned to the given label should be accumulated (APPEND) or overwritten (REWRITE) */
   strategy?: BeaconTagStrategy;
+
+  /** Time-to-live for the tag in seconds (0 means no expiration) */
   ttl?: number;
 }
 
