@@ -90,8 +90,6 @@ internal class PushPushGoBeaconTranslator {
 
       beacon.setCustomId(map.getString("customId"))
 
-      Logger.getLogger("PushPushGo").log(Level.WARNING, beacon.toString())
-
       return beacon
     }
   }
