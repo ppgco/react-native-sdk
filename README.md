@@ -2,6 +2,12 @@
 
 PushPushGo Push Notifications SDK for React Native. Supports Android (Firebase / Huawei) and iOS (APNS).
 
+## Requirements
+
+- Node 22+
+- Android Studio
+- Xcode
+
 ## Expo Projects
 
 If you are using the Expo Managed workflow, you will need to eject your project to switch to the Expo Bare workflow.
