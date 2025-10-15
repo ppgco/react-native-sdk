@@ -2,6 +2,16 @@
 
 PushPushGo Push Notifications SDK for React Native. Supports Android (Firebase / Huawei) and iOS (APNS).
 
+## Expo Projects
+
+If you are using the Expo Managed workflow, you will need to eject your project to switch to the Expo Bare workflow.
+
+Run the following command in your project root:
+
+```bash
+npx expo prebuild
+```
+
 ## Installation
 
 ```sh
@@ -46,7 +56,7 @@ android/app/src/main/AndroidManifest.xml
    - Provide Android package name
      - Go to android/app/build.gradle
      - Look for android.defaultConfig.applicationId
-   - Download given file and put it under android/app directory
+   - Download given `google-services.json` file and put it under android/app directory
 
 2. Authorize PushPushGo to access your Firebase project
    - Go to Firebase Console and navigate to Project Settings
