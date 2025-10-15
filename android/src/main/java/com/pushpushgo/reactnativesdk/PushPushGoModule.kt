@@ -36,12 +36,12 @@ class PushPushGoModule(reactContext: ReactApplicationContext): NativePushPushGoS
   override fun unsubscribeFromNotifications(promise: Promise) {
     ppg.unregisterSubscriber()
 
-    promise.resolve(Unit)
+    promise.resolve(null)
   }
 
   override fun sendBeacon(beacon: ReadableMap, promise: Promise) {
     PushPushGoBeaconTranslator.translate(beacon).send()
 
-    promise.resolve(Unit)
+    promise.resolve(null)
   }
 }
