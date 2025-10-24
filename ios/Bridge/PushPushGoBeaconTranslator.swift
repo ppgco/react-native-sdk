@@ -67,7 +67,7 @@ class PushPushGoBeaconTranslator {
     
     translateSelectors(selectors: selectors, beacon: beacon)
     translateTags(rawTags: tags, beacon: beacon)
-    translateTagsToDelete(rawTags: tags, beacon: beacon)
+    translateTagsToDelete(rawTags: tagsToDelete, beacon: beacon)
   
     beacon.customId = customId as? String ?? "";
     

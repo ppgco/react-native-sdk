@@ -9,7 +9,7 @@ PODS:
     - hermes-engine/Pre-built (= 0.81.1)
   - hermes-engine/Pre-built (0.81.1)
   - PPG_framework (3.0.6)
-  - PushPushGoRN (0.1.0):
+  - PushPushGoRN (0.2.0):
     - boost
     - DoubleConversion
     - fast_float
@@ -2621,7 +2621,7 @@ SPEC CHECKSUMS:
   glog: 5683914934d5b6e4240e497e0f4a3b42d1854183
   hermes-engine: 4f8246b1f6d79f625e0d99472d1f3a71da4d28ca
   PPG_framework: 4be698f6964754838d309b00453d315831d634de
-  PushPushGoRN: 9faef83b265b6dc6dde2635889e820ab3c97750f
+  PushPushGoRN: 6c04c556d119f742e48cdb180cb3edf4ef26b209
   RCT-Folly: 846fda9475e61ec7bcbf8a3fe81edfcaeb090669
   RCTDeprecation: c4b9e2fd0ab200e3af72b013ed6113187c607077
   RCTRequired: e97dd5dafc1db8094e63bc5031e0371f092ae92a
