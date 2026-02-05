@@ -8,6 +8,8 @@ export interface IBeacon {
   tags: BeaconTag[];
   tagsToDelete: BeaconTag[];
   customId: string | null;
+  assignToGroup: string | null;
+  unassignFromGroup: string | null;
 }
 
 class BeaconBuilder {
@@ -15,6 +17,8 @@ class BeaconBuilder {
   private tags: BeaconTag[] = [];
   private tagsToDelete: BeaconTag[] = [];
   private customId: string | null = null;
+  private _assignToGroup: string | null = null;
+  private _unassignFromGroup: string | null = null;
 
   set(key: BeaconSelectorKey, value: BeaconSelectorValue): BeaconBuilder {
     this.selectors.set(key, value);
@@ -40,12 +44,26 @@ class BeaconBuilder {
     return this;
   }
 
+  assignToGroup(groupId: string): BeaconBuilder {
+    this._assignToGroup = groupId;
+
+    return this;
+  }
+
+  unassignFromGroup(groupId: string): BeaconBuilder {
+    this._unassignFromGroup = groupId;
+
+    return this;
+  }
+
   build(): Beacon {
     return new Beacon(
       this.selectors,
       this.tags,
       this.tagsToDelete,
-      this.customId
+      this.customId,
+      this._assignToGroup,
+      this._unassignFromGroup
     );
   }
 }
@@ -55,7 +73,9 @@ export class Beacon implements IBeacon {
     readonly selectors: Map<BeaconSelectorKey, BeaconSelectorValue>,
     readonly tags: BeaconTag[],
     readonly tagsToDelete: BeaconTag[],
-    readonly customId: string | null
+    readonly customId: string | null,
+    readonly assignToGroup: string | null,
+    readonly unassignFromGroup: string | null
   ) {}
 
   static builder(): BeaconBuilder {

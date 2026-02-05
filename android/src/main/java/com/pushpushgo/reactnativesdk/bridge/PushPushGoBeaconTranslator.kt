@@ -90,6 +90,9 @@ internal class PushPushGoBeaconTranslator {
 
       beacon.setCustomId(map.getString("customId"))
 
+      map.getString("assignToGroup")?.let { beacon.assignToGroup(it) }
+      map.getString("unassignFromGroup")?.let { beacon.unassignFromGroup(it) }
+
       return beacon
     }
   }

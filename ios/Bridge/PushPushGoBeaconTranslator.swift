@@ -62,6 +62,8 @@ class PushPushGoBeaconTranslator {
     tags: NSArray,
     tagsToDelete: NSArray,
     customId: NSString?,
+    assignToGroup: NSString?,
+    unassignFromGroup: NSString?
   ) -> Beacon {
     var beacon = Beacon()
     
@@ -70,6 +72,8 @@ class PushPushGoBeaconTranslator {
     translateTagsToDelete(rawTags: tagsToDelete, beacon: beacon)
   
     beacon.customId = customId as? String ?? "";
+    beacon.assignToGroup = assignToGroup as? String
+    beacon.unassignFromGroup = unassignFromGroup as? String
     
     return beacon
   }

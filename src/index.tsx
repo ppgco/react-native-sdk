@@ -47,6 +47,8 @@ export const PushPushGo: IPushPushGo = {
       tags: beacon.tags,
       tagsToDelete: beacon.tagsToDelete,
       customId: beacon.customId,
+      assignToGroup: beacon.assignToGroup,
+      unassignFromGroup: beacon.unassignFromGroup,
     });
   },
 };

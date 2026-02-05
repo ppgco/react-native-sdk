@@ -311,6 +311,20 @@ const beacon = Beacon.builder()
 PushPushGo.sendBeacon(beacon)
   .then(() => console.log('Beacon sent'))
   .catch((e) => `Cannot send beacon: ${e?.message}`);
+
+// Assign subscriber to dynamic group
+const assignBeacon = Beacon.builder()
+  .assignToGroup('my-group-name')
+  .build();
+
+PushPushGo.sendBeacon(assignBeacon);
+
+// Unassign subscriber from dynamic group
+const unassignBeacon = Beacon.builder()
+  .unassignFromGroup('my-group-name')
+  .build();
+
+PushPushGo.sendBeacon(unassignBeacon);
 ```
 
 ## License

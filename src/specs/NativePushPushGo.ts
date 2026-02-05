@@ -9,6 +9,8 @@ interface SpecBeacon {
   tags: BeaconTag[];
   tagsToDelete: BeaconTag[];
   customId: string | null;
+  assignToGroup: string | null;
+  unassignFromGroup: string | null;
 }
 
 export interface Spec extends TurboModule {

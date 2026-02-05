@@ -42,6 +42,8 @@ public class PushPushGoModuleDelegate: NSObject {
     tags: NSArray,
     tagsToDelete: NSArray,
     customId: NSString?,
+    assignToGroup: NSString?,
+    unassignFromGroup: NSString?,
     resolve: @escaping RCTPromiseResolveBlock,
     reject: @escaping RCTPromiseRejectBlock
   ) {
@@ -49,7 +51,9 @@ public class PushPushGoModuleDelegate: NSObject {
       selectors: selectors,
       tags: tags,
       tagsToDelete: tagsToDelete,
-      customId: customId
+      customId: customId,
+      assignToGroup: assignToGroup,
+      unassignFromGroup: unassignFromGroup
     )
     
     PPG.sendBeacon(beacon) { result in

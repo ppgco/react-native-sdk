@@ -34,8 +34,10 @@ static NSString* const MODULE_NAME = @"PushPushGo";
   NSArray *tags = (NSArray*) beacon.tags();
   NSArray *tagsToDelete = (NSArray*) beacon.tagsToDelete();
   NSString *customId = (NSString*) beacon.customId();
+  NSString *assignToGroup = (NSString*) beacon.assignToGroup();
+  NSString *unassignFromGroup = (NSString*) beacon.unassignFromGroup();
   
-  [delegate sendBeaconWithSelectors:selectors tags:tags tagsToDelete:tagsToDelete customId:customId resolve:resolve reject:reject];
+  [delegate sendBeaconWithSelectors:selectors tags:tags tagsToDelete:tagsToDelete customId:customId assignToGroup:assignToGroup unassignFromGroup:unassignFromGroup resolve:resolve reject:reject];
 }
 
 - (void)subscribeToNotifications:(nonnull RCTPromiseResolveBlock)resolve reject:(nonnull RCTPromiseRejectBlock)reject {
