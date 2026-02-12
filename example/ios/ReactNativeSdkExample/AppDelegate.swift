@@ -2,7 +2,7 @@ import UIKit
 import React
 import React_RCTAppDelegate
 import ReactAppDependencyProvider
-import PushPushGoRN
+import PushPushGoRNPush
 
 @main
 class AppDelegate: UIResponder, UIApplicationDelegate {
@@ -15,7 +15,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     _ application: UIApplication,
     didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]? = nil
   ) -> Bool {
-    PushPushGoRN.initialize(
+    PushNotificationsRN.initialize(
       projectId: Bundle.main.infoDictionary?["PPG_PROJECT_ID"] as? String ?? "",
       apiKey: Bundle.main.infoDictionary?["PPG_API_KEY"] as? String ?? "",
       appGroupId: "group.ppg.reactnativesdkexample"
@@ -40,11 +40,11 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
   }
   
   func applicationDidBecomeActive(_ application: UIApplication) {
-    PushPushGoRN.applicationDidBecomeActive()
+    PushNotificationsRN.applicationDidBecomeActive()
   }
   
   func application(_ application: UIApplication, didRegisterForRemoteNotificationsWithDeviceToken deviceToken: Data) {
-    PushPushGoRN.applicationDidRegisterForRemoteNotificationsWithDeviceToken(deviceToken: deviceToken)
+    PushNotificationsRN.applicationDidRegisterForRemoteNotificationsWithDeviceToken(deviceToken: deviceToken)
   }
   
   func application(
@@ -52,7 +52,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     didReceiveRemoteNotification userInfo: [AnyHashable : Any],
     fetchCompletionHandler completionHandler: @escaping (UIBackgroundFetchResult) -> Void
   ) {
-    PushPushGoRN.applicationDidReceiveRemoteNotification(userInfo: userInfo, fetchCompletionHandler: completionHandler)
+    PushNotificationsRN.applicationDidReceiveRemoteNotification(userInfo: userInfo, fetchCompletionHandler: completionHandler)
   }
 }
 

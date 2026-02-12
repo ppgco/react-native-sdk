@@ -1,9 +1,9 @@
-#import "PushPushGoModule.h"
-#import "PushPushGoRN-Swift.h"
+#import "PushNotificationsModule.h"
+#import "PushPushGoRNPush-Swift.h"
 
-static NSString* const MODULE_NAME = @"PushPushGo";
+static NSString* const MODULE_NAME = @"PushPushGoPushNotifications";
 
-@implementation PushPushGoModule {
+@implementation PushNotificationsModule {
   PushPushGoModuleDelegate *delegate;
 }
 
@@ -20,7 +20,7 @@ static NSString* const MODULE_NAME = @"PushPushGo";
 }
 
 - (std::shared_ptr<facebook::react::TurboModule>)getTurboModule:(const facebook::react::ObjCTurboModule::InitParams &)params {
-  return std::make_shared<facebook::react::NativePushPushGoSpecJSI>(params);
+  return std::make_shared<facebook::react::NativePushNotificationsSpecJSI>(params);
 }
 
 - (void)getSubscriberId:(nonnull RCTPromiseResolveBlock)resolve reject:(nonnull RCTPromiseRejectBlock)reject {
@@ -29,7 +29,7 @@ static NSString* const MODULE_NAME = @"PushPushGo";
   resolve(subscriberId);
 }
 
-- (void)sendBeacon:(JS::NativePushPushGo::SpecBeacon &)beacon resolve:(nonnull RCTPromiseResolveBlock)resolve reject:(nonnull RCTPromiseRejectBlock)reject {
+- (void)sendBeacon:(JS::NativePushNotifications::SpecBeacon &)beacon resolve:(nonnull RCTPromiseResolveBlock)resolve reject:(nonnull RCTPromiseRejectBlock)reject {
   NSDictionary *selectors = (NSDictionary*) beacon.selectors();
   NSArray *tags = (NSArray*) beacon.tags();
   NSArray *tagsToDelete = (NSArray*) beacon.tagsToDelete();

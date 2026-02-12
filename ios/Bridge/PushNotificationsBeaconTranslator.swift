@@ -1,7 +1,7 @@
 import Foundation
 import PPG_framework
 
-class PushPushGoBeaconTranslator {
+class PushNotificationsBeaconTranslator {
   private static func translateSelectors(selectors: NSDictionary, beacon: Beacon) -> Void {
     for (key, value) in selectors {
       guard let keyString = key as? String else { continue }
@@ -65,7 +65,7 @@ class PushPushGoBeaconTranslator {
     assignToGroup: NSString?,
     unassignFromGroup: NSString?
   ) -> Beacon {
-    var beacon = Beacon()
+    let beacon = Beacon()
     
     translateSelectors(selectors: selectors, beacon: beacon)
     translateTags(rawTags: tags, beacon: beacon)

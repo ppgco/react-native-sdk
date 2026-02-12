@@ -1,7 +1,7 @@
 {
-  "name": "@pushpushgo/react-native-sdk",
-  "version": "0.3.0",
-  "description": "a",
+  "name": "@pushpushgo/react-native-push",
+  "version": "0.4.0",
+  "description": "PushPushGo Push Notifications SDK for React Native",
   "main": "./lib/module/index.js",
   "types": "./lib/typescript/src/index.d.ts",
   "exports": {
@@ -17,7 +17,6 @@
     "lib",
     "android",
     "ios",
-    "cpp",
     "*.podspec",
     "react-native.config.js",
     "!ios/build",
@@ -32,7 +31,7 @@
     "!**/.*"
   ],
   "scripts": {
-    "example": "yarn workspace @pushpushgo/react-native-sdk-example",
+    "example": "yarn workspace @pushpushgo/react-native-push-example",
     "test": "jest",
     "typecheck": "tsc",
     "lint": "eslint \"**/*.{js,ts,tsx}\"",
@@ -49,7 +48,7 @@
     "type": "git",
     "url": "git+https://github.com/ppgco/react-native-sdk.git"
   },
-  "author": "PushPushGo <support@pushpushgo.com> (https://github.com/ppgco)",
+  "author": "PushPushGo <mobile-dev@pushpushgo.com> (https://github.com/ppgco)",
   "license": "MIT",
   "bugs": {
     "url": "https://github.com/ppgco/react-native-sdk/issues"
@@ -85,8 +84,8 @@
     "typescript": "^5.9.2"
   },
   "peerDependencies": {
-    "react": "*",
-    "react-native": "*"
+    "react": ">=18",
+    "react-native": ">=0.72"
   },
   "workspaces": [
     "example"
@@ -113,7 +112,7 @@
       "publish": true
     },
     "github": {
-      "release": true
+      "release": false
     },
     "plugins": {
       "@release-it/conventional-changelog": {
@@ -149,15 +148,15 @@
     ]
   },
   "codegenConfig": {
-    "name": "PushPushGoSpec",
+    "name": "PushNotificationsSpec",
     "type": "modules",
     "jsSrcsDir": "src/specs",
     "android": {
-      "javaPackageName": "com.pushpushgo.reactnativesdk"
+      "javaPackageName": "com.pushpushgo.bridge.reactnative.push"
     },
     "ios": {
       "modulesProvider": {
-        "PushPushGo": "PushPushGoModule"
+        "PushPushGoPushNotifications": "PushNotificationsModule"
       }
     }
   },

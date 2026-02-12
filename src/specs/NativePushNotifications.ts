@@ -20,4 +20,6 @@ export interface Spec extends TurboModule {
   sendBeacon: (beacon: SpecBeacon) => Promise<void>;
 }
 
-export default TurboModuleRegistry.getEnforcing<Spec>('PushPushGo');
+export default TurboModuleRegistry.getEnforcing<Spec>(
+  'PushPushGoPushNotifications'
+);

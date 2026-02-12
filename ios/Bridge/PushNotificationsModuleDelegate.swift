@@ -3,7 +3,7 @@ import PPG_framework
 import React
 
 @objc(PushPushGoModuleDelegate)
-public class PushPushGoModuleDelegate: NSObject {
+public class PushNotificationsModuleDelegate: NSObject {
   @objc public func getSubscriberId() -> String? {
     return PPG.subscriberId.isEmpty ? nil : PPG.subscriberId;
   }
@@ -47,7 +47,7 @@ public class PushPushGoModuleDelegate: NSObject {
     resolve: @escaping RCTPromiseResolveBlock,
     reject: @escaping RCTPromiseRejectBlock
   ) {
-    let beacon = PushPushGoBeaconTranslator.translate(
+    let beacon = PushNotificationsBeaconTranslator.translate(
       selectors: selectors,
       tags: tags,
       tagsToDelete: tagsToDelete,

@@ -8,8 +8,8 @@ PODS:
   - hermes-engine (0.81.1):
     - hermes-engine/Pre-built (= 0.81.1)
   - hermes-engine/Pre-built (0.81.1)
-  - PPG_framework (3.0.6)
-  - PushPushGoRN (0.2.0):
+  - PPG_framework (4.2.0)
+  - PushPushGoRNPush (0.4.0):
     - boost
     - DoubleConversion
     - fast_float
@@ -2381,8 +2381,8 @@ DEPENDENCIES:
   - fmt (from `../node_modules/react-native/third-party-podspecs/fmt.podspec`)
   - glog (from `../node_modules/react-native/third-party-podspecs/glog.podspec`)
   - hermes-engine (from `../node_modules/react-native/sdks/hermes-engine/hermes-engine.podspec`)
-  - PPG_framework (from `https://github.com/ppgco/ios-sdk.git`, tag `3.0.6`)
-  - PushPushGoRN (from `../..`)
+  - PPG_framework (from `https://github.com/ppgco/ios-sdk.git`, tag `4.2.0`)
+  - PushPushGoRNPush (from `../..`)
   - RCT-Folly (from `../node_modules/react-native/third-party-podspecs/RCT-Folly.podspec`)
   - RCTDeprecation (from `../node_modules/react-native/ReactApple/Libraries/RCTFoundation/RCTDeprecation`)
   - RCTRequired (from `../node_modules/react-native/Libraries/Required`)
@@ -2473,8 +2473,8 @@ EXTERNAL SOURCES:
     :tag: hermes-2025-07-07-RNv0.81.0-e0fc67142ec0763c6b6153ca2bf96df815539782
   PPG_framework:
     :git: https://github.com/ppgco/ios-sdk.git
-    :tag: 3.0.6
-  PushPushGoRN:
+    :tag: 4.2.0
+  PushPushGoRNPush:
     :path: "../.."
   RCT-Folly:
     :podspec: "../node_modules/react-native/third-party-podspecs/RCT-Folly.podspec"
@@ -2610,7 +2610,7 @@ EXTERNAL SOURCES:
 CHECKOUT OPTIONS:
   PPG_framework:
     :git: https://github.com/ppgco/ios-sdk.git
-    :tag: 3.0.6
+    :tag: 4.2.0
 
 SPEC CHECKSUMS:
   boost: 7e761d76ca2ce687f7cc98e698152abd03a18f90
@@ -2620,8 +2620,8 @@ SPEC CHECKSUMS:
   fmt: a40bb5bd0294ea969aaaba240a927bd33d878cdd
   glog: 5683914934d5b6e4240e497e0f4a3b42d1854183
   hermes-engine: 4f8246b1f6d79f625e0d99472d1f3a71da4d28ca
-  PPG_framework: 4be698f6964754838d309b00453d315831d634de
-  PushPushGoRN: 6c04c556d119f742e48cdb180cb3edf4ef26b209
+  PPG_framework: c104e798edb9ab3b35e9c40ef95f5715afefa0c3
+  PushPushGoRNPush: 83db310070b7e33e19827e4df7d5c3f5a58af4c0
   RCT-Folly: 846fda9475e61ec7bcbf8a3fe81edfcaeb090669
   RCTDeprecation: c4b9e2fd0ab200e3af72b013ed6113187c607077
   RCTRequired: e97dd5dafc1db8094e63bc5031e0371f092ae92a
@@ -2689,6 +2689,6 @@ SPEC CHECKSUMS:
   SocketRocket: d4aabe649be1e368d1318fdf28a022d714d65748
   Yoga: 11c9686a21e2cd82a094a723649d9f4507200fb0
 
-PODFILE CHECKSUM: 7e993e8332e08aa1a55250530d253aa9f8916846
+PODFILE CHECKSUM: b5c4f1dfef5454455a82d8b56317061b91aacd03
 
 COCOAPODS: 1.16.2

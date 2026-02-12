@@ -1,19 +1,19 @@
 import { PermissionsAndroid, Platform } from 'react-native';
 import type { Beacon } from './beacon/Beacon';
-import NativePushPushGo from './specs/NativePushPushGo';
+import NativePushNotifications from './specs/NativePushNotifications';
 
 export type SubscriberId = string;
 
-export interface IPushPushGo {
+export interface IPushNotifications {
   getSubscriberId: () => Promise<SubscriberId | null>;
   subscribeToNotifications: () => Promise<SubscriberId>;
   unsubscribeFromNotifications: () => Promise<void>;
   sendBeacon: (beacon: Beacon) => Promise<void>;
 }
 
-export const PushPushGo: IPushPushGo = {
+export const PushNotifications: IPushNotifications = {
   getSubscriberId: async () => {
-    return await NativePushPushGo.getSubscriberId();
+    return await NativePushNotifications.getSubscriberId();
   },
 
   subscribeToNotifications: async () => {
@@ -34,15 +34,15 @@ export const PushPushGo: IPushPushGo = {
       }
     }
 
-    return await NativePushPushGo.subscribeToNotifications();
+    return await NativePushNotifications.subscribeToNotifications();
   },
 
   unsubscribeFromNotifications: async () => {
-    await NativePushPushGo.unsubscribeFromNotifications();
+    await NativePushNotifications.unsubscribeFromNotifications();
   },
 
   sendBeacon: async (beacon) => {
-    await NativePushPushGo.sendBeacon({
+    await NativePushNotifications.sendBeacon({
       selectors: Object.fromEntries(beacon.selectors.entries()),
       tags: beacon.tags,
       tagsToDelete: beacon.tagsToDelete,

@@ -1,33 +1,35 @@
-package com.pushpushgo.reactnativesdk.bridge
+package com.pushpushgo.bridge.reactnative.push
 
 import com.facebook.react.bridge.ReadableMap
 import com.facebook.react.bridge.ReadableType
 import com.pushpushgo.sdk.BeaconBuilder
 import com.pushpushgo.sdk.PushPushGo
-import java.util.logging.Level
-import java.util.logging.Logger
 
 private data class TranslatedBeaconTag(
   val tag: String,
   val label: String,
   val strategy: String,
-  val ttl: Int
+  val ttl: Int,
 )
 
-internal class PushPushGoBeaconTranslator {
+internal class PushNotificationsBeaconTranslator {
   companion object {
-    private fun translateSelectors(map: ReadableMap, beacon: BeaconBuilder) {
+    private fun translateSelectors(
+      map: ReadableMap,
+      beacon: BeaconBuilder,
+    ) {
       val selectors = map.getMap("selectors")
       val selectorsIterator = selectors?.keySetIterator()
 
-      while(selectorsIterator?.hasNextKey() == true) {
+      while (selectorsIterator?.hasNextKey() == true) {
         val key = selectorsIterator.nextKey()
-        val value: Any? = when (selectors.getType(key)) {
-          ReadableType.String -> selectors.getString(key)
-          ReadableType.Number -> selectors.getDouble(key)
-          ReadableType.Boolean -> selectors.getBoolean(key)
-          else -> throw PushPushGoError("Unexpected selector value type")
-        }
+        val value: Any? =
+          when (selectors.getType(key)) {
+            ReadableType.String -> selectors.getString(key)
+            ReadableType.Number -> selectors.getDouble(key)
+            ReadableType.Boolean -> selectors.getBoolean(key)
+            else -> throw PushNotificationsError("Unexpected selector value type")
+          }
 
         value?.let { beacon.set(key, it) }
       }
@@ -40,18 +42,21 @@ internal class PushPushGoBeaconTranslator {
       val ttl = tag.getInt("ttl")
 
       if (strategy != "append" && strategy != "rewrite") {
-        throw PushPushGoError("Unexpected beacon tag strategy")
+        throw PushNotificationsError("Unexpected beacon tag strategy")
       }
 
       return TranslatedBeaconTag(
         tag = name,
         label = label,
         strategy = strategy,
-        ttl = ttl
+        ttl = ttl,
       )
     }
 
-    private fun translateTags(map: ReadableMap, beacon: BeaconBuilder) {
+    private fun translateTags(
+      map: ReadableMap,
+      beacon: BeaconBuilder,
+    ) {
       val tags = map.getArray("tags") ?: return
 
       for (i in 0 until tags.size()) {
@@ -62,12 +67,15 @@ internal class PushPushGoBeaconTranslator {
           tag = tag.tag,
           label = tag.label,
           strategy = tag.strategy,
-          ttl = tag.ttl
+          ttl = tag.ttl,
         )
       }
     }
 
-    private fun translateTagsToDelete(map: ReadableMap, beacon: BeaconBuilder) {
+    private fun translateTagsToDelete(
+      map: ReadableMap,
+      beacon: BeaconBuilder,
+    ) {
       val rawTagsToDelete = map.getArray("tagsToDelete") ?: return
       val tagsToDelete = mutableMapOf<String, String>()
 

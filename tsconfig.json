@@ -2,7 +2,7 @@
   "compilerOptions": {
     "rootDir": ".",
     "paths": {
-      "@pushpushgo/react-native-sdk": ["./src/index"]
+      "@pushpushgo/react-native-push": ["./src/index"]
     },
     "allowUnreachableCode": false,
     "allowUnusedLabels": false,

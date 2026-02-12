@@ -2,8 +2,8 @@ import {
   Beacon,
   BeaconTag,
   BeaconTagStrategy,
-  PushPushGo,
-} from '@pushpushgo/react-native-sdk';
+  PushNotifications,
+} from '@pushpushgo/react-native-push';
 import { useCallback, useEffect, useState } from 'react';
 import { Text, View, StyleSheet, Button } from 'react-native';
 
@@ -12,7 +12,7 @@ export default function App() {
 
   useEffect(() => {
     const _watch = () => {
-      PushPushGo.getSubscriberId()
+      PushNotifications.getSubscriberId()
         .then((_id) => setId(_id))
         .catch();
     };
@@ -25,17 +25,17 @@ export default function App() {
   }, []);
 
   const onRegisterToNotifications = useCallback(() => {
-    PushPushGo.subscribeToNotifications()
+    PushNotifications.subscribeToNotifications()
       .then((_id) => setId(_id))
       .catch((e) => console.error(e?.message));
   }, []);
 
   const onUnregisterFromNotifications = useCallback(() => {
-    PushPushGo.unsubscribeFromNotifications();
+    PushNotifications.unsubscribeFromNotifications();
   }, []);
 
   const onSendBeacon = useCallback(() => {
-    PushPushGo.sendBeacon(
+    PushNotifications.sendBeacon(
       Beacon.builder()
         .set('hello', 'world')
         .appendTag(BeaconTag.fromTag('my-tag-0'))

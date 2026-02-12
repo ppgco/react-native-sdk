@@ -1,7 +1,7 @@
 import Foundation
 import PPG_framework
 
-public class PushPushGoRN {
+public class PushNotificationsRN {
   public static func initialize(
     projectId: String,
     apiKey: String,

@@ -9,7 +9,7 @@ buildscript {
   }
 
   dependencies {
-    classpath "com.android.tools.build:gradle:8.7.2"
+    classpath "com.android.tools.build:gradle:9.0.0"
     // noinspection DifferentKotlinGradleVersion
     classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:${getExtOrDefault('kotlinVersion')}"
   }
@@ -25,7 +25,7 @@ def getExtOrIntegerDefault(name) {
 }
 
 android {
-  namespace "com.pushpushgo.reactnativesdk"
+  namespace "com.pushpushgo.bridge.reactnative.push"
 
   compileSdkVersion getExtOrIntegerDefault("compileSdkVersion")
 
@@ -74,6 +74,6 @@ def kotlin_version = getExtOrDefault("kotlinVersion")
 dependencies {
   implementation "com.facebook.react:react-android"
   implementation "org.jetbrains.kotlin:kotlin-stdlib:$kotlin_version"
-  implementation "com.github.ppgco.android-sdk:sdk:3.0.0"
-  implementation 'com.google.guava:guava:33.4.8-android'
+  implementation "com.github.ppgco.android-sdk:sdk:3.1.0"
+  implementation 'com.google.guava:guava:33.5.0-android'
 }
