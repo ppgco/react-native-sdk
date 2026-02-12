@@ -2,15 +2,11 @@
 
 PushPushGo Push Notifications SDK for React Native. Supports Android (FCM / HMS) and iOS (APNS).
 
----
-
 ## Requirements
 
 - Node 22+
 - Android Studio
 - Xcode
-
----
 
 ## Expo Projects
 
@@ -21,8 +17,6 @@ Run the following command in your project root:
 ```bash
 npx expo prebuild
 ```
-
----
 
 ## Android Integration
 
@@ -38,8 +32,6 @@ npx expo prebuild
    - See FCM or HMS sections below for details.
 5. Collect your PushPushGo Project ID and API Key.
 
----
-
 ### Installation
 
 ```sh
@@ -47,8 +39,6 @@ npm install @pushpushgo/react-native-push
 # or
 yarn add @pushpushgo/react-native-push
 ```
-
----
 
 ### FCM (Firebase Cloud Messaging)
 
@@ -92,8 +82,6 @@ dependencies {
   implementation 'com.google.firebase:firebase-messaging'
 }
 ```
-
----
 
 ### HMS (Huawei Push Kit)
 
@@ -153,8 +141,6 @@ dependencies {
 }
 ```
 
----
-
 ### Android Configuration
 
 #### AndroidManifest.xml
@@ -186,13 +172,6 @@ To ensure correct handling of notification taps:
        </intent-filter>
    </activity>
    ```
-
-### Additional info
-
-- https://docs.pushpushgo.company/mobile-push/google-android
-- https://docs.pushpushgo.company/mobile-push/huawei-android
-
----
 
 ## iOS Integration
 
@@ -353,11 +332,9 @@ Open iOS project in Xcode (`ios/*.xcworkspace`).
 
 Ensure that application and NSE targets have the same minimum iOS version requirement - `General` > `Minimum Deployments`.
 
-### 8. Additional info
+## Additional Integration Info
 
-- https://docs.pushpushgo.company/mobile-push/apple-ios
-
----
+- https://pushpushgo.productfruits.help/en/article/web-mobile-push-integration
 
 ## Usage
 
@@ -404,8 +381,6 @@ PushNotifications.sendBeacon(beacon)
   .then(() => console.log('Beacon sent'))
   .catch((e) => `Cannot send beacon: ${e?.message}`);
 ```
-
----
 
 ## License
 
