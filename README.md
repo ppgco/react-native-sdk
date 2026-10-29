@@ -1,109 +1,118 @@
-# React Native SDK
+# PushPushGo Push Notifications SDK for React Native
 
-PushPushGo Push Notifications SDK for React Native. Supports Android (FCM / HMS) and iOS (APNS).
+React Native SDK for integrating push notifications into Android and iOS
+applications. Supports FCM (Firebase Cloud Messaging) and HMS (Huawei Push
+Kit) on Android, and APNs on iOS.
+
+## Table of contents
+
+- [Requirements](#requirements)
+- [Installation](#installation)
+- [Expo projects](#expo-projects)
+- [Android integration](#android-integration)
+  - [Preparation](#android-preparation)
+  - [FCM](#fcm-firebase-cloud-messaging)
+  - [HMS](#hms-huawei-push-kit)
+  - [Configuration](#android-configuration)
+  - [Handling notification clicks](#handling-notification-clicks)
+- [iOS integration](#ios-integration)
+  - [Project setup](#ios-project-setup)
+  - [App integration](#ios-app-integration)
+  - [Notification Service Extension](#notification-service-extension)
+- [Basic usage](#basic-usage)
+  - [Push subscription](#push-subscription)
+  - [Beacons and tags](#beacons-and-tags)
+  - [Dynamic groups](#dynamic-groups)
+- [Support](#support)
 
 ## Requirements
 
-- Node 22+
-- Android Studio
-- Xcode
+- Node.js 22+
+- React Native 0.72+
+- React 18+
+- Android API 24+
+- iOS 13.0+
 
-## Expo Projects
+## Installation
 
-If you are using the Expo Managed workflow, you will need to eject your project to switch to the Expo Bare workflow.
-
-Run the following command in your project root:
-
-```bash
-npx expo prebuild
-```
-
-## Android Integration
-
-### Preparation
-
-1. Remove other push SDKs or custom FCM/HMS implementations.
-2. Connect your app to a push provider.
-3. Prepare provider configuration files:
-   - FCM: `google-services.json`
-   - HMS: `agconnect-services.json`
-4. Integrate the provider in the PushPushGo app:
-   - Project → Settings → Integration
-   - See FCM or HMS sections below for details.
-5. Collect your PushPushGo Project ID and API Key.
-
-> [!IMPORTANT]
-> ### Use a dedicated Mobile SDK token
->
-> We have introduced a **dedicated mobile authorization token** for mobile SDK
-> integrations. We recommend generating one in *Project settings → Integration → Mobile*
-> (`https://app.pushpushgo.com/projects/{yourProjectID}/settings/integration/mobile`)
-> and using it in the SDK instead of a general-purpose API key from the Access Manager.
-> It is a drop-in replacement — no other changes to your integration are required.
-
-### Why a separate token?
-
-The recommendation is a security one — a credential shipped inside a mobile app should
-be the one you can afford to lose:
-
-- **Limited blast radius** — the mobile token is scoped to what the SDK actually needs.
-  A general API key usually also allows sending campaigns, exporting subscribers or
-  changing project settings; if it leaks from an app, the attacker gets all of that.
-- **Independent revocation** — you can revoke or rotate the mobile token without
-  breaking your server-side integrations that share the old key.
-
-> [!NOTE]
-> Tokens you are currently using will keep working — this is not a breaking change.
-> We still recommend switching to a dedicated mobile token.
-
-### Installation
+Install the package:
 
 ```sh
 npm install @pushpushgo/react-native-push
-# or
+```
+
+or:
+
+```sh
 yarn add @pushpushgo/react-native-push
 ```
+
+The native package is linked automatically by React Native.
+
+## Expo projects
+
+If you are using the Expo Managed workflow, generate the native Android and iOS projects before integrating this SDK:
+
+```sh
+npx expo prebuild
+```
+
+Then complete the Android and iOS integration steps below.
+
+## Android integration
+
+### Android preparation
+
+1. Remove other push SDKs or custom FCM/HMS implementations.
+2. Connect the app to FCM or HMS.
+3. Prepare the provider configuration file:
+   - FCM: `google-services.json`
+   - HMS: `agconnect-services.json`
+4. In PushPushGo, open **Project → Settings → Integration** and configure the
+   selected provider.
+5. Collect your PushPushGo Project ID and API Key.
+
+Choose the appropriate provider setup below, then complete
+[Android configuration](#android-configuration).
 
 ### FCM (Firebase Cloud Messaging)
 
 #### Provider credentials
 
 1. Open **Firebase Console**.
-2. Navigate to **Project settings** → **Cloud Messaging**.
+2. Navigate to **Project settings → Cloud Messaging**.
 3. Click **Manage service accounts**.
 4. Select your service account email.
-5. Open the **Keys** tab.
-6. Click **Add key** → **Create new key**.
-7. Choose **JSON** format and download the file.
-8. Upload the JSON file in the PushPushGo **FCM** integration section.
+5. Open **Keys → Add key → Create new key**.
+6. Choose JSON format and download the file.
+7. Upload the file in the PushPushGo **FCM v1** integration section.
 
 #### FCM configuration
 
-Place `google-services.json` in the app module root:
+Place `google-services.json` in the app module:
 
-```
+```text
 android/app/google-services.json
 ```
 
-#### Gradle setup
+Add the Google Services plugin:
 
-```gradle
+```groovy
 // android/build.gradle
 buildscript {
-  dependencies {
-    classpath("com.google.gms:google-services:4.4.4")
-  }
+    dependencies {
+        classpath("com.google.gms:google-services:4.4.4")
+    }
 }
 ```
 
-```gradle
+```groovy
 // android/app/build.gradle
-
-apply plugin: 'com.google.gms.google-services'
+apply plugin: "com.google.gms.google-services"
 
 dependencies {
-  implementation platform('com.google.firebase:firebase-bom:34.9.0')
-  implementation 'com.google.firebase:firebase-messaging'
+    implementation platform("com.google.firebase:firebase-bom:34.9.0")
+    implementation "com.google.firebase:firebase-messaging"
 }
 ```
 
@@ -112,215 +121,230 @@ dependencies {
 #### Provider credentials
 
 1. Open **Huawei Developers Console**.
-2. Navigate to your project.
-3. Open **Project settings**.
-4. Collect the required values:
-   - `appId`
-   - `authUrl`
-   - `pushUrl`
-   - `appSecret`
-5. Provide these credentials in the PushPushGo **HMS** integration section.
+2. Select your project and open **Project settings**.
+3. Collect `appId`, `authUrl`, `pushUrl`, and `appSecret`.
+4. Enter the credentials in the PushPushGo **HMS** integration section.
 
 #### HMS configuration
 
-Place `agconnect-services.json` in the app module root:
+Place `agconnect-services.json` in the app module:
 
-```
+```text
 android/app/agconnect-services.json
 ```
 
-#### Gradle setup
+Add the Huawei repository and AG Connect plugin:
 
-```gradle
+```groovy
 // android/build.gradle
 buildscript {
-  repositories {
-    maven {
-      url('https://developer.huawei.com/repo/')
+    repositories {
+        maven { url "https://developer.huawei.com/repo/" }
     }
-  }
 
-  dependencies {
-    classpath('com.huawei.agconnect:agcp:1.9.1.304')
-  }
+    dependencies {
+        classpath("com.huawei.agconnect:agcp:1.9.1.304")
+    }
 }
 
 allprojects {
-  repositories {
-    maven {
-      url('https://developer.huawei.com/repo/')
+    repositories {
+        maven { url "https://developer.huawei.com/repo/" }
     }
-  }
 }
 ```
 
-```gradle
+```groovy
 // android/app/build.gradle
-
-apply plugin: 'com.huawei.agconnect'
+apply plugin: "com.huawei.agconnect"
 
 dependencies {
-  implementation 'com.huawei.agconnect:agconnect-core:1.9.1.304'
-  implementation 'com.huawei.hms:push:6.13.0.300'
+    implementation "com.huawei.agconnect:agconnect-core:1.9.1.304"
+    implementation "com.huawei.hms:push:6.13.0.300"
 }
 ```
 
-### Android Configuration
+### Android configuration
 
-#### AndroidManifest.xml
-
-Add your Project ID and API Key inside `<application>`:
+Add the Project ID and API Key inside the `<application>` element in
+`android/app/src/main/AndroidManifest.xml`:
 
 ```xml
 <meta-data
-  android:name="com.pushpushgo.projectId"
-  android:value="{projectId}" />
-
+    android:name="com.pushpushgo.projectId"
+    android:value="YOUR_PROJECT_ID" />
 <meta-data
-  android:name="com.pushpushgo.apiKey"
-  android:value="{apiKey}" />
+    android:name="com.pushpushgo.apiKey"
+    android:value="YOUR_API_KEY" />
 ```
 
-#### Handling notification clicks
+The React Native package initializes the Android SDK automatically.
 
-To ensure correct handling of notification taps:
+### Handling notification clicks
 
-1. Set `android:launchMode` to `singleTop` on your activity.
-2. Add the following `intent-filter`.
+Set the main activity launch mode to `singleTop` and add the PushPushGo click
+intent filter:
 
-   ```xml
-   <activity android:launchMode="singleTop">
-       <intent-filter>
-           <action android:name="APP_PUSH_CLICK" />
-           <category android:name="android.intent.category.DEFAULT" />
-       </intent-filter>
-   </activity>
-   ```
+```xml
+<activity
+    android:name=".MainActivity"
+    android:launchMode="singleTop">
 
-## iOS Integration
+    <intent-filter>
+        <action android:name="APP_PUSH_CLICK" />
+        <category android:name="android.intent.category.DEFAULT" />
+    </intent-filter>
+</activity>
+```
 
-### 1. Modify Podfile
+The package automatically forwards matching click intents to the native SDK.
 
-    ```rb
-    # ios/Podfile
+## iOS integration
 
-    # Add PPG_framework pod to existing main application target
-    target '<application_name>' do
+### iOS project setup
 
-    pod 'PPG_framework', :git => 'https://github.com/ppgco/ios-sdk.git', :tag => '4.2.0'
+#### Create and upload an APNs certificate
 
+Upload the APNs certificate to your PushPushGo project by following the
+[APNs setup tutorial](https://docs.pushpushgo.company/application/providers/mobile-push/apns).
+
+#### Add required capabilities
+
+In Xcode, select the application target and open **Signing & Capabilities**:
+
+1. Add **Push Notifications**.
+2. Add **Background Modes** and enable **Remote notifications**.
+3. Add **App Groups** and select an existing group or create one.
+4. Ensure the provisioning profile includes the same capabilities.
+
+The application and Notification Service Extension must use the same App Group.
+
+#### Configure CocoaPods
+
+The React Native package is autolinked. Add the PushPushGo iOS framework to the
+application target in `ios/Podfile`:
+
+```ruby
+target 'YourApp' do
+  # Existing React Native configuration...
+
+  pod 'PPG_framework',
+      :git => 'https://github.com/ppgco/ios-sdk.git',
+      :tag => '4.2.0'
+end
+```
+
+In the existing `post_install` block, allow the framework to use application
+APIs:
+
+```ruby
+post_install do |installer|
+  # Keep react_native_post_install(...) and other existing configuration.
+
+  installer.pods_project.targets.each do |target|
+    next unless target.name == 'PPG_framework'
+
+    target.build_configurations.each do |config|
+      config.build_settings['APPLICATION_EXTENSION_API_ONLY'] = 'No'
     end
-
-    # Add the following code to the post_install section
-    post_install do |installer|
-    installer.pods_project.targets.each do |target|
-      target.build_configurations.each do |config|
-        config.build_settings['APPLICATION_EXTENSION_API_ONLY'] = 'No'
-      end
-    end
-    end
-    ```
-
-### 2. Install pods
-
-Under ios/ directory run `pod install`.
-
-### 3. Open workspace
-
-Open iOS project in Xcode (`ios/*.xcworkspace`).
-
-### 4. Modify AppDelegate
-
-    ```swift
-    // ios/<name>/AppDelegate.swift
-
-    import PushPushGoRNPush
-
-    public override func application(
-      _ application: UIApplication,
-      didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]? = nil
-    ) -> Bool {
-      // At the beginning of this method, initialize the PushNotificationsRN library
-
-      PushNotificationsRN.initialize(
-        projectId: "<YOUR-PROJECT-ID>",
-        apiKey: "<YOUR-API-KEY>",
-        appGroupId: "<YOUR-APP-GROUP-ID>"
-      )
-
-      // ...
-    }
-
-    // Add the following code
-
-    public override func applicationDidBecomeActive(_ application: UIApplication) {
-      PushNotificationsRN.applicationDidBecomeActive()
-    }
-
-    public override func application(
-      _ application: UIApplication,
-      didRegisterForRemoteNotificationsWithDeviceToken deviceToken: Data
-    ) {
-        PushNotificationsRN.applicationDidRegisterForRemoteNotificationsWithDeviceToken(deviceToken: deviceToken)
-    }
-
-    public override func application(
-      _ application: UIApplication,
-      didReceiveRemoteNotification userInfo: [AnyHashable : Any],
-      fetchCompletionHandler completionHandler: @escaping (UIBackgroundFetchResult) -> Void
-    ) {
-      PushNotificationsRN.applicationDidReceiveRemoteNotification(userInfo: userInfo, fetchCompletionHandler: completionHandler)
-    }
-    ```
-
-### 5. Add required capabilities
-
-- Click on top item in your project hierarchy
-- Select your project on target list
-- Select `Signing & Capabilities`
-- You can add capability by clicking on `+ Capability` button that is placed under `Signing & Capabilities` button
-- Add `Background Modes` capability unless it is already on your capability list. Then select `Remote notifications`
-- Add `Push notifications` capability unless it is already on your capability list
-- Add `App Groups`. You can use your default app group ID or add new one
-- Make sure that your `Provisioning Profile` has required capabilities. If you didn't add them while creating `Provisioning Profile` for your app you should go to your Apple Developer Center to add them. Then refresh your profile in Xcode project.
-
-#### How to add new group to your provisioning profile?
-
-- Go to Apple Developers and navigate to Certificates, Identifiers & Profiles. Then go to Identifiers and in the right corner change App IDs to AppGroups. You can add new group here.
-- Now you can go back to Identifiers, choose your app identifier and add AppGroup capability. Remember to check your new group.
-
-### 6. Create Notification Service Extension (NSE)
-
-- Go to `File -> New -> Target`
-- Select `Notification Service Extension`
-- Choose a suitable name for it
-- Right click on the created NSE and select `Convert To Group`
-- Select your NSE on target list
-- Select `Signing & Capabilities`
-- Click on `+ Capability` button, under `Signing & Capabilities`, and add AppGroup capability with the exact same appGroupId as in the main application target and in the code
-- Modify `Podfile` and add NSE target
-
-  ```rb
-  # ios/Podfile
-
-  # Replace PushPushGoRNNSE with the name of your NSE
-  target 'PushPushGoRNNSE' do
-    use_modular_headers!
-
-    pod 'PPG_framework', :git => 'https://github.com/ppgco/ios-sdk.git', :tag => '4.2.0'
   end
-  ```
+end
+```
 
-- In ios/ directory run `pod install`
-- Select your NSE on target list, in `General` > `Frameworks and Libraries` add `libPPG_framework.a`
-- Modify `NotificationService.swift` file in the created NSE and fill in the appGroupId value
+Install the pods:
 
-  ```swift
-  // ios/<NSE>/NotificationService.swift
+```sh
+cd ios
+pod install
+```
 
-  import PPG_framework
+Open the generated `.xcworkspace` file in Xcode.
 
-  // replace didReceive function with the following implementation
+### iOS app integration
+
+Import the bridge and initialize it at the beginning of your existing
+`application(_:didFinishLaunchingWithOptions:)` implementation:
+
+```swift
+import PushPushGoRNPush
+
+public override func application(
+  _ application: UIApplication,
+  didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]? = nil
+) -> Bool {
+  PushNotificationsRN.initialize(
+    projectId: "YOUR_PROJECT_ID",
+    apiKey: "YOUR_API_KEY",
+    appGroupId: "YOUR_APP_GROUP_ID"
+  )
+
+  return super.application(
+    application,
+    didFinishLaunchingWithOptions: launchOptions
+  )
+}
+```
+
+Forward the following application lifecycle callbacks to the bridge.
+
+```swift
+public override func applicationDidBecomeActive(_ application: UIApplication) {
+    PushNotificationsRN.applicationDidBecomeActive()
+}
+
+public override func application(
+    _ application: UIApplication,
+    didRegisterForRemoteNotificationsWithDeviceToken deviceToken: Data
+) {
+    PushNotificationsRN
+        .applicationDidRegisterForRemoteNotificationsWithDeviceToken(
+            deviceToken: deviceToken
+        )
+}
+
+public override func application(
+    _ application: UIApplication,
+    didReceiveRemoteNotification userInfo: [AnyHashable: Any],
+    fetchCompletionHandler completionHandler: @escaping (UIBackgroundFetchResult) -> Void
+) {
+    PushNotificationsRN.applicationDidReceiveRemoteNotification(
+        userInfo: userInfo,
+        fetchCompletionHandler: completionHandler
+    )
+}
+```
+
+### Notification Service Extension
+
+1. In Xcode, go to **File → New → Target**.
+2. Select **Notification Service Extension** and create a Swift target.
+3. Open **Signing & Capabilities** for the extension.
+4. Add **App Groups** and select the same group as the application target.
+5. Ensure the application and extension use the same minimum iOS version.
+6. Add the extension target to `ios/Podfile`:
+
+```ruby
+target 'PPGNotificationServiceExtension' do
+  use_frameworks!
+  use_modular_headers!
+
+  pod 'PPG_framework',
+      :git => 'https://github.com/ppgco/ios-sdk.git',
+      :tag => '4.2.0'
+end
+```
+
+Run `pod install` again, then add the following to the NSE and set your App
+Group identifier:
+
+```swift
+import UserNotifications
+import PPG_framework
+
+class NotificationService: UNNotificationServiceExtension {
+  var contentHandler: ((UNNotificationContent) -> Void)?
+  var bestAttemptContent: UNMutableNotificationContent?
+
   override func didReceive(
     _ request: UNNotificationRequest,
     withContentHandler contentHandler: @escaping (UNNotificationContent) -> Void
@@ -350,17 +374,12 @@ Open iOS project in Xcode (`ios/*.xcworkspace`).
         contentHandler(self.bestAttemptContent ?? content)
     }
   }
-  ```
+}
+```
 
-### 7. Ensure minimum deployment version
+## Basic usage
 
-Ensure that application and NSE targets have the same minimum iOS version requirement - `General` > `Minimum Deployments`.
-
-## Additional Integration Info
-
-- https://pushpushgo.productfruits.help/en/article/web-mobile-push-integration
-
-## Usage
+### Push subscription
 
 ```ts
 import { PushNotifications } from '@pushpushgo/react-native-push';
@@ -382,6 +401,19 @@ PushNotifications.getSubscriberId()
     console.log(`subscriberId: ${subscriberId ?? 'unsubscribed'}`)
   )
   .catch((e) => console.error(`Cannot get subscriberId: ${e?.message}`));
+```
+
+`subscribeToNotifications()` requests notification permission when required.
+
+### Beacons and tags
+
+```ts
+import {
+  Beacon,
+  BeaconTag,
+  BeaconTagStrategy,
+  PushNotifications,
+} from '@pushpushgo/react-native-push';
 
 const beacon = Beacon.builder()
   .set('a-flag', true)
@@ -397,15 +429,47 @@ const beacon = Beacon.builder()
     })
   )
   .setCustomId('my-custom-id')
-  .assignToGroup('my-group-name') // Assign subscriber to dynamic group
-  .unassignFromGroup('my-group-name') // Unassign subscriber from dynamic group
   .build();
 
 PushNotifications.sendBeacon(beacon)
   .then(() => console.log('Beacon sent'))
-  .catch((e) => `Cannot send beacon: ${e?.message}`);
+  .catch((e) => console.error(`Cannot send beacon: ${e?.message}`));
 ```
+
+The tag `ttl` is expressed in seconds. A value of `0` means that the tag
+does not expire.
+
+### Dynamic groups
+
+Assign the subscriber to a dynamic group:
+
+```ts
+const beacon = Beacon.builder()
+  .assignToGroup('my-group-name')
+  .build();
+
+PushNotifications.sendBeacon(beacon)
+  .then(() => console.log('Beacon sent'))
+  .catch((e) => console.error(`Cannot send beacon: ${e?.message}`));
+```
+
+Unassign the subscriber from a dynamic group:
+
+```ts
+const beacon = Beacon.builder()
+  .unassignFromGroup('my-group-name')
+  .build();
+
+PushNotifications.sendBeacon(beacon)
+  .then(() => console.log('Beacon sent'))
+  .catch((e) => console.error(`Cannot send beacon: ${e?.message}`));
+```
+
+## Support
+
+- [GitHub Issues](https://github.com/ppgco/react-native-sdk/issues)
+- [PushPushGo documentation](https://docs.pushpushgo.com)
 
 ## License
 
-MIT
+[MIT](LICENSE)
